@@ -6,18 +6,24 @@
 
 cmake_minimum_required(VERSION 3.8.2)
 
-project(TimeServer C)
-
-if(KernelArchARM)
-    set(CAmkESDTS ON CACHE BOOL "" FORCE)
+if(KernelArchARM AND NOT CAmkESDTS)
+    message("TimeServer not available, as CAmkESDTS is OFF")
+    return()
 endif()
-set(CAmkESCPP ON CACHE BOOL "" FORCE)
+
+if(NOT CAmkESCPP)
+    message("TimeServer not available, as CAmkESCPP is OFF")
+    return()
+endif()
+
+project(TimeServer C)
 
 if("${KernelPlatform}" STREQUAL "pc99")
     list(APPEND TimeServerPlatSources src/plat/pc99/plat.c)
 endif()
 
-# The imx8 boards (imx8mm-evk, imx8mq-evk) share the same timer device configuration
+# The imx8 boards (imx8mm-evk, imx8mq-evk) share the same timer device
+# configuration
 if("${KernelPlatform}" MATCHES "imx8.*")
     set(PlatPrefix "imx8")
 else()

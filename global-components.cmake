@@ -21,27 +21,19 @@ foreach(
     components/modules/single-threaded
     components/modules/x86-iospace-dma
     components/modules/picotcp-base
+    components/BenchUtiliz
     components/ClockServer
+    components/Ethdriver
+    components/FileServer
     components/GPIOMUXServer
+    components/PCIConfigIO
+    components/PicoServer
     components/ResetServer
+    components/RTC
+    components/SerialServer
+    components/TimeServer
+    components/VirtQueue
     plat_components/tx2/BPMPServer
 )
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/${comp}" ${comp})
-endforeach()
-
-foreach(
-    comp
-    IN
-    ITEMS
-    PCIConfigIO
-    RTC
-    SerialServer
-    TimeServer
-    FileServer
-    VirtQueue
-    BenchUtiliz
-    Ethdriver
-    PicoServer
-)
-    include("${CMAKE_CURRENT_LIST_DIR}/components/${comp}/CMakeLists.txt")
 endforeach()

@@ -6,13 +6,25 @@
 
 cmake_minimum_required(VERSION 3.8.2)
 
+# BPMPServer is a platform specific component for Nvidia Jetson TX2, so we
+# ensure that is not visible on any other platform - and nothing get added to
+# the include paths.
+if(NOT KernelPlatformTx2)
+    return()
+endif()
+
+# We have checked for KernelPlatformTx2 above, so here KernelArchARM should be
+# set anyway. But we keep the check generic.
+if(KernelArchARM AND NOT CAmkESDTS)
+    message("BPMPServer not available, as CAmkESDTS is OFF")
+    return()
+endif()
+
 project(BPMPServer C)
 
 CAmkESAddImportPath(camkes-include)
 CAmkESAddCPPInclude(camkes-include)
 CAmkESAddTemplatesPath(templates)
-
-set(CAmkESDTS ON CACHE BOOL "" FORCE)
 
 DeclareCAmkESConnector(
     BPMPServerInit
